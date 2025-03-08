@@ -1,6 +1,5 @@
 import csv
 import os
-import os
 
 # Get the absolute path to the data folder
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Path to the src folder
@@ -40,3 +39,11 @@ def save_claim(claim):
         if not file_exists:
             writer.writeheader()  # Write header if the file is new
         writer.writerow(claim)  # Write the claim as a new row
+
+def calculate_retired_count():
+    if not os.path.exists(DATA_FILE):
+        return 0
+    with open(DATA_FILE, "r") as file:
+        reader = csv.DictReader(file)
+        retired_count = sum(1 for row in reader if row["status"] == "Retired")
+    return retired_count
