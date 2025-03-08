@@ -1,8 +1,0 @@
-claim_id,policy_number,claim_amount,date_of_incident,status,payout_amount,rejection_reason
-1,POL123,1000.0,2023-10-01,Submitted,0.0,
-2,POL456,2500.0,2023-09-15,Approved,2000.0,
-3,POL789,500.0,2023-10-05,Rejected,0.0,
-4,POL101,1500.0,2023-09-20,Approved,1200.0,
-5,POL202,3000.0,2023-10-10,Submitted,0.0,
-6,POL1234,1000.0,2023-10-01,Submitted,0.0,
-7,POL1254,1000.0,2023-10-01,Submitted,0.0,

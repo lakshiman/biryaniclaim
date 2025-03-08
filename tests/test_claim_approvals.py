@@ -1,7 +1,12 @@
 import unittest
 import os
 import csv
-from biryaniclaim.src.claim_approval import approve_claim, reject_claim, DATA_FILE
+import sys
+
+# Add the parent directory of 'biryaniclaim' to the PYTHONPATH
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+
+from claim_approval import approve_claim, reject_claim, DATA_FILE
 
 class TestClaimApprovals(unittest.TestCase):
     @classmethod
@@ -25,6 +30,7 @@ class TestClaimApprovals(unittest.TestCase):
             os.remove(cls.test_data_file)
 
     def test_approve_claim(self):
+        """Test approving a claim updates the status and payout amount correctly."""
         approve_claim(1, 1500.0)
         with open(self.test_data_file, "r") as file:
             reader = csv.DictReader(file)
@@ -34,6 +40,7 @@ class TestClaimApprovals(unittest.TestCase):
         self.assertEqual(claims[0]["rejection_reason"], "")
 
     def test_reject_claim(self):
+        """Test rejecting a claim updates the status and rejection reason correctly."""
         reject_claim(2, "Insufficient documentation")
         with open(self.test_data_file, "r") as file:
             reader = csv.DictReader(file)
@@ -43,6 +50,7 @@ class TestClaimApprovals(unittest.TestCase):
         self.assertEqual(claims[1]["rejection_reason"], "Insufficient documentation")
 
     def test_claim_not_found(self):
+        """Test attempting to approve a non-existent claim logs an appropriate message."""
         with self.assertLogs(level='INFO') as log:
             approve_claim(3, 1000.0)
             self.assertIn("Claim ID 3 not found.", log.output)
