@@ -1,5 +1,9 @@
 import csv
 import os
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
 # Get the absolute path to the data folder
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Path to the src folder
@@ -13,13 +17,16 @@ def reject_claim(claim_id, rejection_reason):
 
 def update_claim_status(claim_id, status, payout_amount, rejection_reason):
     if not os.path.exists(DATA_FILE):
-        print("No claims file found.")
+        logging.info("No claims file found.")
         return
 
     claims = []
     with open(DATA_FILE, "r") as file:
         reader = csv.DictReader(file)
         claims = list(reader)
+        if not claims:
+            logging.info("Claims file is empty.")
+            return
 
     claim_found = False
     for claim in claims:
@@ -31,7 +38,7 @@ def update_claim_status(claim_id, status, payout_amount, rejection_reason):
             break
 
     if not claim_found:
-        print(f"Claim ID {claim_id} not found.")
+        logging.info(f"Claim ID {claim_id} not found.")
         return
 
     with open(DATA_FILE, "w", newline="") as file:
@@ -39,7 +46,7 @@ def update_claim_status(claim_id, status, payout_amount, rejection_reason):
         writer.writeheader()
         writer.writerows(claims)
 
-    print(f"Claim ID {claim_id} has been {status.lower()}.")
+    logging.info(f"Claim ID {claim_id} has been {status.lower()}.")
 
 # Example usage:
 # approve_claim(1, 1000.0)

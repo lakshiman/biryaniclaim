@@ -2,8 +2,9 @@ import unittest
 import os
 import csv
 import sys
+import logging
 
-# Add the parent directory of 'biryaniclaim' to the PYTHONPATH
+# Add the 'src' directory to the PYTHONPATH
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
 from claim_approval import approve_claim, reject_claim, DATA_FILE
